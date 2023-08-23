@@ -1,73 +1,146 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "Customers")
+@Table(name = "Customer")
 public class Customer {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long userId;
-	
-	@Column(name = "name")
-	private String name;
-	
-	@Column(name = "mobileNo")
-	private long mobileNo;
-	
-	@Column(name  = "address")
+	@Column(name = "customer_id")
+	private Long customerId;
+
+	@NotNull
+	@Size(min = 2, max = 100)
+	private String fullName;
+
+	@NotNull
+	@Email
+	private String email;
+
+	@NotNull
+	@Size(max = 20)
+	private String phone;
+
+	@NotNull
+	@Size(max = 200)
 	private String address;
-	
-	@Column(name = "emailId")
-	private String emailId;
-	
+
+	@NotNull
+	@Size(max = 50)
+	private String city;
+
+	@NotNull
+	@Size(max = 50)
+	private String region;
+
+	@NotNull
+	@Size(max = 20)
+	@Column(name = "postal_code")
+	private String postalCode;
+
+	@NotNull
+	@Column(name = "role")
+	private String role;
+
+
+	//Constructor
 	public Customer() {
-		
+		fullName = null;
+		email = null;
+		phone = null;
+		address = null;
+		city = null;
+		region = null;
+		postalCode = null;
+		role = "customer";
 	}
-	
-	public Customer(long userId, String name, long mobileNo, String address, String emailId) {
-		super();
-		this.userId = userId;
-		this.name = name;
-		this.mobileNo = mobileNo;
+
+	public Customer(Long customerId, @NotNull String fullName, @NotNull String email, @NotNull String phone, @NotNull String address, @NotNull String city, @NotNull String region, @NotNull String postalCode) {
+		this.customerId = customerId;
+		this.fullName = fullName;
+		this.email = email;
+		this.phone = phone;
 		this.address = address;
-		this.emailId = emailId;
+		this.city = city;
+		this.region = region;
+		this.postalCode = postalCode;
+		this.role = "customer";
 	}
-	public long getUserId() {
-		return userId;
+
+
+	//Getter and Setter
+
+	public Long getCustomerId() {
+		return customerId;
 	}
-	public void setUserId(long userId) {
-		this.userId = userId;
+
+	public void setCustomerId(Long customerId) {
+		this.customerId = customerId;
 	}
-	public String getName() {
-		return name;
+
+	public @NotNull String getFullName() {
+		return fullName;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setFullName(@NotNull String fullName) {
+		this.fullName = fullName;
 	}
-	public long getMobileNo() {
-		return mobileNo;
+
+	public @NotNull String getEmail() {
+		return email;
 	}
-	public void setMobileNo(long mobileNo) {
-		this.mobileNo = mobileNo;
+
+	public void setEmail(@NotNull String email) {
+		this.email = email;
 	}
-	public String getAddress() {
+
+	public @NotNull String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(@NotNull String phone) {
+		this.phone = phone;
+	}
+
+	public @NotNull String getAddress() {
 		return address;
 	}
-	public void setAddress(String address) {
+
+	public void setAddress(@NotNull String address) {
 		this.address = address;
 	}
-	public String getEmailId() {
-		return emailId;
+
+	public @NotNull String getCity() {
+		return city;
 	}
-	public void setEmailId(String emailId) {
-		this.emailId = emailId;
+
+	public void setCity(@NotNull String city) {
+		this.city = city;
 	}
-	
-	
+
+	public @NotNull String getRegion() {
+		return region;
+	}
+
+	public void setRegion(@NotNull String region) {
+		this.region = region;
+	}
+
+	public @NotNull String getPostalCode() {
+		return postalCode;
+	}
+
+	public void setPostalCode(@NotNull String postalCode) {
+		this.postalCode = postalCode;
+	}
+
+	public @NotNull String getRole() { return role; }
+
+	public void setRole(@NotNull String role) { this.role = role; }
 }

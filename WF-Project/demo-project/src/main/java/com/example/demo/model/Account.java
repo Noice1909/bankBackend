@@ -1,73 +1,97 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.jetbrains.annotations.NotNull;
+
+import java.math.BigDecimal;
 
 @Entity
-@Table (name = "Accounts")
+@Table(name = "Account")
 public class Account {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
-//	@Column (name = "userId")
-	private long userId;
-	
-	@Column (name = "accNo")
-	private long accNo;
-	
-	@Column (name = "accType")
-	private String accType;
-	
-	@Column (name = "balance")
-	private long balance;
+	@Column(name = "account_id")
+	private Long accountId;
+
+	@ManyToOne
+	@JoinColumn(name = "customer_id" , referencedColumnName="customer_id")
+	@NotNull
+	private Customer customer;
+
+	@Column(name = "account_type")
+	@NotNull
+	private String accountType;
+
+	@NotNull
+	private BigDecimal balance;
+
+	@NotNull
+	@Column(name = "status")
+	private String status;
+
+	//Constructor
 
 	public Account() {
-		
+		customer = null;
+		accountType = null;
+		balance = BigDecimal.valueOf(0);
+		status = null;
 	}
-	
-	public Account(long userId, long accNo, String accType, long balance) {
-		super();
-		this.userId = userId;
-		this.accNo = accNo;
-		this.accType = accType;
+
+	public Account(@NotNull Customer customer, @NotNull String accountType, @NotNull BigDecimal balance, @NotNull String status) {
+		this.customer = customer;
+		this.accountType = accountType;
 		this.balance = balance;
+		this.status = status;
 	}
 
-	public long getUserId() {
-		return userId;
+	public Account(long l, @NotNull Customer customer, @NotNull String accountType, @NotNull BigDecimal balance, @NotNull String status) {
+		this.accountId = l;
+		this.customer = customer;
+		this.accountType = accountType;
+		this.balance = balance;
+		this.status = status;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	// Getters and setters
+	public Long getAccountId() {
+		return accountId;
 	}
 
-	public long getAccNo() {
-		return accNo;
+	public void setAccountId(Long accountId) {
+		this.accountId = accountId;
 	}
 
-	public void setAccNo(long accNo) {
-		this.accNo = accNo;
+	public @NotNull Customer getCustomer() {
+		return customer;
 	}
 
-	public String getAccType() {
-		return accType;
+	public void setCustomer(@NotNull Customer customer) {
+		this.customer = customer;
 	}
 
-	public void setAccType(String accType) {
-		this.accType = accType;
+	public @NotNull String getAccountType() {
+		return accountType;
 	}
 
-	public long getBalance() {
+	public void setAccountType(@NotNull String accountType) {
+		this.accountType = accountType;
+	}
+
+	public @NotNull BigDecimal getBalance() {
 		return balance;
 	}
 
-	public void setBalance(long balance) {
+	public void setBalance(@NotNull BigDecimal balance) {
 		this.balance = balance;
 	}
-	
-	
+
+	public @NotNull String getStatus() {
+		return status;
+	}
+
+	public void setStatus(@NotNull String status) {
+		this.status = status;
+	}
 }

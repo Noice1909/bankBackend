@@ -1,68 +1,100 @@
 package com.example.demo.model;
 
-import java.sql.Date;
+import jakarta.persistence.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
-@Table (name = "Transactions")
+@Table(name = "Transaction")
 public class Transaction {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	
-//	@Column(name = "transId")
-	private long transId;
-	
-	@Column(name = "amt")
-	private long amt;
-	
-	@Column(name = "transType")
-	private String transType;
-	
-	@Column(name = "date")
-	private Date date;
-	
+	@Column(name = "transaction_id")
+	private Long transactionId;
+
+	@ManyToOne
+	@JoinColumn(name = "account_id")
+	@NotNull
+	private Account account;
+
+	@Column(name = "transaction_type")
+	@NotNull
+	private String transactionType;
+
+	@NotNull
+	private BigDecimal amount;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "transaction_date")
+	private @NotNull Date transactionDate;
+
+	//Constructor
+
 	public Transaction() {
-		
+		account = null;
+		transactionType = null;
+		amount = null;
+		transactionDate = null;
 	}
-	public Transaction(long transId, long amt, String transType, Date date) {
-		super();
-		this.transId = transId;
-		this.amt = amt;
-		this.transType = transType;
-		this.date = date;
+
+	public Transaction(Long transactionId, @NotNull Account account, @NotNull String transactionType, @NotNull BigDecimal amount, @NotNull Date transactionDate) {
+		this.transactionId = transactionId;
+		this.account = account;
+		this.transactionType = transactionType;
+		this.amount = amount;
+		this.transactionDate = transactionDate;
 	}
-	public long getTransId() {
-		return transId;
+
+	//Getter and Setter
+
+	public Long getTransactionId() {
+		return transactionId;
 	}
-	public void setTransId(long transId) {
-		this.transId = transId;
+
+	public void setTransactionId(Long transactionId) {
+		this.transactionId = transactionId;
 	}
-	public long getAmt() {
-		return amt;
+
+	public @NotNull Account getAccount() {
+		return account;
 	}
-	public void setAmt(long amt) {
-		this.amt = amt;
+
+	public void setAccount(@NotNull Account account) {
+		this.account = account;
 	}
-	public String getTransType() {
-		return transType;
+
+	public @NotNull String getTransactionType() {
+		return transactionType;
 	}
-	public void setTransType(String transType) {
-		this.transType = transType;
+
+	public void setTransactionType(@NotNull String transactionType) {
+		this.transactionType = transactionType;
 	}
-	public Date getDate() {
-		return date;
+
+	public @NotNull BigDecimal getAmount() {
+		return amount;
 	}
-	public void setDate(Date date) {
-		this.date = date;
+
+	public void setAmount(@NotNull BigDecimal amount) {
+		this.amount = amount;
 	}
-	
-	
-	
-	
+
+	public @NotNull Date getTransactionDate() {
+		return transactionDate;
+	}
+
+	public void setTransactionDate(@NotNull Date transactionDate) {
+		this.transactionDate = transactionDate;
+	}
+
+	public void setAmountWithSign(@NotNull BigDecimal amount, @NotNull String transactionType) {
+		if ("deducted".equalsIgnoreCase(transactionType)) {
+			this.amount = amount.negate();
+		} else { //credited
+			this.amount = amount;
+		}
+	}
 }

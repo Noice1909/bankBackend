@@ -1,18 +1,17 @@
 package com.example.demo.repository;
 
-import com.example.demo.model.Customer;
+import com.example.demo.model.UserAuth;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Account;
 
-import java.util.List;
-
-
-@EnableJpaRepositories
 @Repository
-public interface AccountRepository extends JpaRepository<Account, Long>{
+@EnableJpaRepositories
+public interface UserAuthRepository extends JpaRepository<UserAuth, Long>{
 
-    List<Account> findByCustomer(Customer customer);
+    UserAuth findByUsername(String username);
+
+    UserAuth findByCustomer_CustomerId(Long customerId);
 }
